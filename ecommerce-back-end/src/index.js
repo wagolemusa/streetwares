@@ -1,17 +1,31 @@
-// import cors from "cors";
-// import { join } from 'path';
+import cors from "cors";
+import { join } from 'path';
 import consola from "consola";
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
 import passport from "passport";
-// import { json } from "body-parser";
-import { DB, PORT} from "./constants/index.js"
+import bodyParser from "body-parser";
+import { DB, PORT} from "./constants"
+
+const  { json } = bodyParser;
 const app = express();
 
-
+// Apply Application Middlewares
+app.use(cors());
+app.use(json());
+app.use(passport.initialize());
+// app.use(express.static(join(__dirname, "./uploads")));
 
 dotenv.config();
+
+
+app.get('/', (req, res) => {
+  return res.status(200).json({
+    seccess: true,
+    message: "Refuge Wise xxxxxxxxxxxxxxxxx"
+});
+});
 
 
 const main = async () => {

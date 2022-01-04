@@ -1,32 +1,33 @@
 import express from 'express';
 import { Router } from "express";
 const jwt = require('jsonwebtoken')
-import User from '../models/user'
+import User from '../../models/user'
 const router = Router();
 
 
 /**
  * @description Create Users
  * @type POST
- * @api /api/signup
+ * @api /api/admin/signup
  * @access Public
  */
-router.post('/api/signup', (req, res) => {
-    User.findOne({ email: req.body.email }) 
+router.post('/admin/signup', async(req, res) => {
+    await User.findOne({ email: req.body.email }) 
     .exec((error, user) =>{
         if(user) return res.status(400).json({
             message: 'User already registerd'
         })
 
         const {firstname, lastname, email, password} = req.body;
-        const _user = new User({
+        let _user = new User({
             firstname,
             lastname,
             email,
             password,
-            username: Math.random().toString()
+            username: Math.random().toString(),
+            role: 'admin'
         });
-        _user.save((error, data => {
+         _user.save((error, data => {
             if(error){
                 return res.status(400).json({
                     message: 'Something went Wrong'
@@ -34,7 +35,7 @@ router.post('/api/signup', (req, res) => {
             }
             if(data){
                 return res.status(201).json({
-                    message: 'User Created Successfully..!'
+                    message: 'Admin Created Successfully..!'
 
                 })}
         }))
@@ -46,14 +47,14 @@ router.post('/api/signup', (req, res) => {
 /**
  * @description Signin Users
  * @type POST
- * @api /api/signin
+ * @api /api/admin/signin/
  * @access Public
  */
- router.get('/signin', (req, res) => {
+ router.post('/admin/signin', (req, res) => {
     User.findOne({ email: req.body.email })
     .exec((error, user) => {
         if(user) {
-            if(user.authenticate(req.body.password)){
+            if(user.authenticate(req.body.password) && user.role === 'admin'){
                 const token = jwt.sign({_id: user.id}, process.env.APP_SECRET,{ expiresIn: '1h' });
                 const {_id, firstname, lastname, email, role, fullName } = user;
                 res.status(200).json({

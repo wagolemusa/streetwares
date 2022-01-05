@@ -19,13 +19,9 @@ app.use(passport.initialize());
 
 dotenv.config();
 
-
-app.get('/', (req, res) => {
-  return res.status(200).json({
-    seccess: true,
-    message: "Refuge Wise xxxxxxxxxxxxxxxxx"
-});
-});
+// import routers
+import userRoutes from './routes/user'
+import userAdmin from './routes/admin/auth'
 
 
 const main = async () => {
@@ -43,5 +39,9 @@ const main = async () => {
       consola.error(`Unable to start the server \n${err.message}`);
     }
   };
+  
+
+  app.use('/users', userRoutes);
+  app.use('/api', userAdmin);
   
   main();

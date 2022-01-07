@@ -1,5 +1,8 @@
 import express from 'express';
 import { Router } from "express";
+import { validationResult } from 'express-validator';
+const { validateRequest, validateSigninRequest  } = require('../../validators/auth')
+import validator from '../../middlewares/validater-middleware';
 const jwt = require('jsonwebtoken')
 import User from '../../models/user'
 const router = Router();
@@ -11,36 +14,31 @@ const router = Router();
  * @api /api/admin/signup
  * @access Public
  */
-router.post('/admin/signup', async(req, res) => {
-    await User.findOne({ email: req.body.email }) 
-    .exec((error, user) =>{
-        if(user) return res.status(400).json({
-            message: 'User already registerd'
-        })
-
-        const {firstname, lastname, email, password} = req.body;
-        let _user = new User({
-            firstname,
-            lastname,
-            email,
-            password,
-            username: Math.random().toString(),
-            role: 'admin'
-        });
-         _user.save((error, data => {
-            if(error){
-                return res.status(400).json({
-                    message: 'Something went Wrong'
+router.post('/admin/signup', validateRequest, validator, async(req, res) => {
+    try {
+        let { firstname, lastname, email, password } = req.body;
+        let user = await User.findOne({ email })
+            if (user) return res.status(400).json({
+                    message: 'User already registerd'
                 })
-            }
-            if(data){
-                return res.status(201).json({
-                    message: 'Admin Created Successfully..!'
-
-                })}
-        }))
-    })
-
+        
+                const _user =  new User({
+                    firstname,
+                    lastname,
+                    email,
+                    password,
+                    username: Math.random().toString(),
+                    role: 'admin'
+                });
+            await _user.save();
+            return res.status(201).json({
+                seccess: true,
+                message: "Admin Seccessfuly Saved"
+            })
+       
+    } catch (error) {
+        console.log("ERR", error.message)
+    }
 });
 
 
@@ -50,7 +48,7 @@ router.post('/admin/signup', async(req, res) => {
  * @api /api/admin/signin/
  * @access Public
  */
- router.post('/admin/signin', (req, res) => {
+ router.post('/admin/signin', validateSigninRequest, validator, async(req, res) => {
     User.findOne({ email: req.body.email })
     .exec((error, user) => {
         if(user) {

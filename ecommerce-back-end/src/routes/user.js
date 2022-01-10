@@ -53,7 +53,7 @@ router.get('/signin',validateSigninRequest, validator, async (req, res) => {
             .exec((error, user) => {
                 if (user) {
                     if (user.authenticate(req.body.password)) {
-                        const token = jwt.sign({ _id: user.id }, process.env.APP_SECRET, { expiresIn: '1h' });
+                        const token = jwt.sign({ _id: user.id, role: user.role }, process.env.APP_SECRET, { expiresIn: '1h' });
                         const { _id, firstname, lastname, email, role, fullName } = user;
                         res.status(200).json({
                             token,

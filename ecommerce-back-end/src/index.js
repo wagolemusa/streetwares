@@ -22,6 +22,7 @@ dotenv.config();
 // import routers
 import userRoutes from './routes/user'
 import userAdmin from './routes/admin/auth'
+import CategoryRoutes from "./routes/category";
 
 
 const main = async () => {
@@ -42,6 +43,7 @@ const main = async () => {
   
 
   app.use('/users', userRoutes);
+  app.use('/api', CategoryRoutes);
   app.use('/api', userAdmin);
   
   main();

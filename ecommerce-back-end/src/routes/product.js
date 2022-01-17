@@ -20,10 +20,10 @@ const storage = multer.diskStorage({
  const upload = multer({ storage })
 
 
-router.post('/product/create', upload.array('productPictures'),(req, res)  => {
+router.post('/product/create', upload.array('productPictures'), (req, res) => {
 
-    // res.status(200).json({ file: req.files, body: req.body });
-    const { name, price, description, category, createdBy, quantity } = req.body;
+  // res.status(200).json({ file: req.files, body: req.body });
+  const { name, price, description, category, createdBy, quantity } = req.body;
   let productPictures = [];
 
   if (req.files.length > 0) {

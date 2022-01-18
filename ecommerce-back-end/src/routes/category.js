@@ -3,6 +3,21 @@ import { Router } from "express";
 import { requiresSignin, adminMiddleware } from "../middlewares";
 const slugify = require('slugify')
 const router = Router();
+const shortid = require('shortid')
+const path = require('path');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, path.join(path.dirname(__dirname), 'uploads'))
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      cb(null, shortid.generate() + '-' + file.originalname)
+    }
+  })
+ const upload = multer({ storage })
+
 
 function createCategories(categories, parentId = null){
     const categoryList = [];
@@ -24,12 +39,18 @@ function createCategories(categories, parentId = null){
 }
 
 
-router.post('/category/create', async(req, res) => {
+router.post('/category/create', upload.single('categoryImage'), async(req, res) => {
     try{
+       
         const catagoryObj ={
             name: req.body.name,
-            slug: slugify(req.body.name)
+            slug: slugify(req.body.name),
+
         }
+        if(req.file){
+            catagoryObj.categoryImage = process.env.APP_DOMAIN + '/public/' + req.file.filename;
+        }
+
         if (req.body.parentId){
             catagoryObj.parentId = req.body.parentId;
         }

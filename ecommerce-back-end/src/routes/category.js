@@ -39,7 +39,7 @@ function createCategories(categories, parentId = null){
 }
 
 
-router.post('/category/create', upload.single('categoryImage'), async(req, res) => {
+router.post('/category/create',requiresSignin, adminMiddleware, upload.single('categoryImage'), async(req, res) => {
     try{
        
         const catagoryObj ={

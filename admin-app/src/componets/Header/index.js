@@ -22,10 +22,10 @@ const Header = (props) => {
             </Nav>
             <Nav>
               <li className='nav-item'>
-                  <NavLink to="signin" className='nav-link'>Signin</NavLink>
+                  <NavLink to="/signin" className='nav-link'>Signin</NavLink>
               </li> 
               <li className='nav-item'>
-                <NavLink to="signup" className='nav-link'>Signup</NavLink>
+                <NavLink to="/signup" className='nav-link'>Signup</NavLink>
               </li>
             </Nav>
           </Navbar.Collapse>

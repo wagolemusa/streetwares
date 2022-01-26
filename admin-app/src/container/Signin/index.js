@@ -5,8 +5,7 @@ import Input from '../../componets/UI/Input';
 import {login} from '../../actions'
 import { useDispatch,useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { isUserLoggedIn } from '../../actions';
-import { authConstants } from '../../actions/constants';
+
 
 const Signin = (props) => {
 
@@ -30,6 +29,7 @@ const Signin = (props) => {
     return (
         <Layout>
             <Container>
+                {auth.message}
                 <Row style={{ marginTop: '50px' }}>
                     <Col md={{span: 6, offset: 3}}>
                         <Form onSubmit={userLogin}>

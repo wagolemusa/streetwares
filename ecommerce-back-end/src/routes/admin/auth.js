@@ -5,6 +5,7 @@ const { validateRequest, validateSigninRequest  } = require('../../validators/au
 import validator from '../../middlewares/validater-middleware';
 const jwt = require('jsonwebtoken')
 import User from '../../models/user'
+const { requiresSignin } = require('../../middlewares/index')
 const router = Router();
 
 
@@ -55,6 +56,7 @@ router.post('/admin/signup', validateRequest, validator, async(req, res) => {
             if(user.authenticate(req.body.password) && user.role === 'admin'){
                 const token = jwt.sign({_id: user.id, role: user.role}, process.env.APP_SECRET,{ expiresIn: '1h' });
                 const {_id, firstname, lastname, email, role, fullName } = user;
+                res.cookie('token', token, { expiresIn: '1h'});
                 res.status(200).json({
                     token,
                     user: {
@@ -74,5 +76,11 @@ router.post('/admin/signup', validateRequest, validator, async(req, res) => {
     })
 });
 
+router.post('/admin/signout', requiresSignin,(req, res) => {
+    res.clearCookie('token');
+    res.status(200).json({
+        message: 'Signout succesfully...!'
+    })
+})  
 
 export default router;

@@ -9,13 +9,16 @@ const initState = {
         picture: ''
     },
     authenticate: false,
-    authenticating: false
+    authenticating: false,
+    loading: false,
+    error: null,
+    message: ''
 };
 
 export default (state = initState, action) => {
     console.log(action)
-    switch(action.type){
-        case authConstants.LOGIN_REQUEST: 
+    switch (action.type) {
+        case authConstants.LOGIN_REQUEST:
             state = {
                 ...state,
                 authenticating: true
@@ -27,7 +30,25 @@ export default (state = initState, action) => {
                 user: action.payload.user,
                 token: action.payload.token,
                 authenticate: true,
-                authenticating: false 
+                authenticating: false
+            }
+            break;
+        case authConstants.LOGOUT_REQUEST:
+            state = {
+                ...state,
+                loading: true
+            }
+            break;
+        case authConstants.LOGOUT_SECCESS:
+            state = {
+                ...initState
+            }
+            break;
+        case authConstants.LOGOUT_FAILURE:
+            state = {
+                ...state,
+                error: action.payload.error,
+                loading: false
             }
             break;
     }

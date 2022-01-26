@@ -1,40 +1,62 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Layout from '../../componets/Loyout';
 import { Container, Col, Form,Row, Button  } from 'react-bootstrap';
 import Input from '../../componets/UI/Input';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import { signup } from '../../actions';
+
+const dispatch = useDispatch
 
 const Signup = (props) => {
-    const auth = useSelector(state => state.auth)
+    
+    const [firstname, setFirstname] = useState('');
+    const [lastname , setLastname] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const auth = useSelector(state => state.auth);
+    const user = useSelector(state => state.user);
+
+    const userSignup = (e) => {
+        e.preventDefault();
+        const user = {
+            firstname, lastname,email,password
+        }
+        dispatch(signup(user));
+    }
 
     if(auth.authenticate){
         return <Navigate to={`/`} />
     }
 
+    if(user.loading){
+        return <p>Loading....!</p>
+    }
     return(
         <Layout>
             <Container>
+                {user.message}
                 <Row style={{ marginTop: '50px' }}>
                     <Col md={{span: 6, offset: 3}}>
-                        <Form>
+                    <Form onSubmit={userSignup}>
                             <Row>
                                 <Col md={6}>
                                     <Input 
                                         label="First Name"
                                         placeholder="First Name"
-                                        Value=""
+                                        value={firstname}
                                         type="text"
-                                        onChange={() => {}}
+                                        onChange={(e) => setFirstname(e.target.value)}
                                     />
                                 </Col>
                                 <Col md={6}>
                                 <Input 
                                         label="Last Name"
                                         placeholder="Last Name"
-                                        Value=""
+                                        value={lastname}
                                         type="text"
-                                        onChange={() => {}}
+                                        onChange={(e) => setLastname(e.target.value)}
                                     />
                                 </Col>
                             </Row>
@@ -42,23 +64,24 @@ const Signup = (props) => {
                             <Input
                                 label="Email"
                                 placeholder="Email"
-                                Value=""
+                                value={email}
                                 type="email"
-                                onChange={() => { }}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
 
                             <Input
                                 label="Password"
                                 placeholder="password"
-                                Value=""
+                                value={password}
                                 type="password"
-                                onChange={() => { }}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                         <br/>
-                            <Button variant="primary" type="submit">
+                        <Button variant="primary" type="submit">
                                 Submit
                             </Button>
                         </Form>
+
 
                     </Col>
                 </Row>

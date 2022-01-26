@@ -1,6 +1,5 @@
 import cors from "cors";
 import { join } from 'path';
-
 import consola from "consola";
 import express, { application } from "express";
 import mongoose from "mongoose";

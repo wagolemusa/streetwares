@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isUserLoggedIn } from './actions'
 import Products from './container/Home/products';
 import Order from './container/Home/order';
+import Category from './container/Category';
 
 function App() {
   const dispatch = useDispatch();
@@ -42,6 +43,10 @@ function App() {
 
           <Route path='/order' element={<PrivateRoute/>}>
             <Route path='/order' element={<Order/>}/>
+          </Route>
+
+          <Route path='/category' element={<PrivateRoute/>}>
+            <Route path='/category' element={<Category/>}/>
           </Route>
 
               <Route path="/signin" element={ <Signin />} />

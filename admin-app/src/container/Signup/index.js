@@ -81,8 +81,6 @@ const Signup = (props) => {
                                 Submit
                             </Button>
                         </Form>
-
-
                     </Col>
                 </Row>
             </Container>

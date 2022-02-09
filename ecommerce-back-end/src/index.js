@@ -27,6 +27,7 @@ import userAdmin from './routes/admin/auth';
 import CategoryRoutes from "./routes/category";
 import ProductRoutes from "./routes/product";
 import CartRoutes from "./routes/cart";
+import initilDataRoutes from "./routes/admin/initilData";
 
 
 const main = async () => {
@@ -51,5 +52,6 @@ const main = async () => {
   app.use('/api', userAdmin);
   app.use('/api', ProductRoutes);
   app.use('/api', CartRoutes);
+  app.use('/api', initilDataRoutes);
   
   main();

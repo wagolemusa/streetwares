@@ -11,28 +11,27 @@ const Category = (props) => {
     const [categoryName, setCategoryName] = useState('');
     const [parentCategoryId, setParentCategoryId] = useState('');
     const [categoryImage, setCategoryImage] = useState('');
-
     const [show, setShow] = useState(false);
 
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getAllCategory());
-    }, []);
 
     const handleClose = () => {
         const form = new FormData();
         form.append('name', categoryName);
         form.append('parentId', parentCategoryId);
         form.append('categoryImage', categoryImage);
-
         dispatch(addCategory(form));
+
+        setCategoryName('');
+        setParentCategoryId('');
+
         // const cat = {
         //     categoryName,
         //     parentCategoryId,
         //     categoryImage
         // };
         // console.log(cat);
+        
         setShow(false);
     }
     const handleShow = () => setShow(true);
@@ -50,6 +49,7 @@ const Category = (props) => {
         return Mycategories;
     }
 
+    
     // This fumction calls all selected options
     const createCategoryList = (categories, options = []) => {
         for(let category of categories){
@@ -60,6 +60,7 @@ const Category = (props) => {
         }
         return options;
     }
+
     // Function handle Upload Image
     const handleCategoryImage = (e) => {
         setCategoryImage(e.target.files[0]);

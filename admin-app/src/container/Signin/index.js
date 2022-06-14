@@ -8,7 +8,6 @@ import { Navigate } from 'react-router-dom';
 
 
 const Signin = (props) => {
-
     const  [email, setEmail] =  useState('');
     const [password,  setPassword] = useState('');
     const [error, setError] = useState('');
@@ -26,6 +25,7 @@ const Signin = (props) => {
     if(auth.authenticate){
         return <Navigate to={`/`} />
     }
+
     return (
         <Layout>
             <Container>

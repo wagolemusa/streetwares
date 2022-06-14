@@ -6,6 +6,7 @@ import { categoryConstansts } from "../actions/constants";
      error: null
  };
 
+
 export default (state = initState, action) => {
      switch(action.type){
         case categoryConstansts.GET_ALL_CATEGORIES_SUCCESS:

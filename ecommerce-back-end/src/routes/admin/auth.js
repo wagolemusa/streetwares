@@ -22,7 +22,6 @@ router.post('/admin/signup', validateRequest, validator, async(req, res) => {
             if (user) return res.status(400).json({
                     message: 'User already registerd'
                 })
-        
                 const _user =  new User({
                     firstname,
                     lastname,
@@ -56,7 +55,7 @@ router.post('/admin/signup', validateRequest, validator, async(req, res) => {
             if(user.authenticate(req.body.password) && user.role === 'admin'){
                 const token = jwt.sign({_id: user.id, role: user.role}, process.env.APP_SECRET,{ expiresIn: '1h' });
                 const {_id, firstname, lastname, email, role, fullName } = user;
-                res.cookie('token', token, { expiresIn: '1h'});
+                res.cookie('token', token, { expiresIn: '1d'});
                 res.status(200).json({
                     token,
                     user: {

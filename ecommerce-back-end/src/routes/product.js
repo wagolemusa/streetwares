@@ -20,6 +20,7 @@ const storage = multer.diskStorage({
  const upload = multer({ storage })
 
 
+// Create Products
 router.post('/product/create', requiresSignin, adminMiddleware, upload.array('productPictures'), (req, res) => {
 
   // res.status(200).json({ file: req.files, body: req.body });
@@ -50,5 +51,7 @@ router.post('/product/create', requiresSignin, adminMiddleware, upload.array('pr
     }
   });
 })
+
+
 
 export default router;

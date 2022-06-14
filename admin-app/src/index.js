@@ -8,8 +8,6 @@ import store from './store';
 
 import { BrowserRouter } from "react-router-dom";
 
-
-
 window.store = store;
 
 ReactDOM.render(

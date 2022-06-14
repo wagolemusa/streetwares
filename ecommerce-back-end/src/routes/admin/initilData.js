@@ -46,5 +46,4 @@ router.post('/admin/product', async(req, res) => {
     }
 })
 
-
 export default router

@@ -22,7 +22,6 @@ router.post('/admin/signup', validateRequest, validator, async(req, res) => {
             if (user) return res.status(400).json({
                     message: 'User already registerd'
                 })
-        
                 const _user =  new User({
                     firstname,
                     lastname,

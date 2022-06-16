@@ -28,10 +28,12 @@ const Products = (Props) => {
         for (let pic of productPictures) {
             form.append('productPictures', pic);
         }
+
         dispatch(addProduct(form));
+
+        setShow(false)
     }
     const handleShow = () => setShow(true);
-
 
     // This fumction calls all selected options
     const createCategoryList = (categories, options = []) => {
@@ -52,6 +54,7 @@ const Products = (Props) => {
     }
    
 
+    // Rendering data from the table
     const RenderProducts = () => {
         return(
             <Table responsive="sm">
